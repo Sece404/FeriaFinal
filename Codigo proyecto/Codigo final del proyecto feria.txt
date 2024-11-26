@@ -1,0 +1,68 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(10, 11); // TX, RX
+
+const int IN1 = 2;  
+const int IN2 = 3;  
+const int IN3 = 5;  
+const int IN4 = 6; 
+
+unsigned long lapso;
+
+void setup() {
+  Serial.begin(9600);
+  mySerial.begin(9600);
+
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+
+  // los motores apagados
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
+
+void loop() { 
+  if (mySerial.available()) {
+    char toSend = (char)mySerial.read();
+    Serial.println(toSend);
+
+    if (toSend == 'F') {
+      // Avanzar
+      digitalWrite(IN1, LOW); 
+      digitalWrite(IN2, HIGH);   
+      digitalWrite(IN3, LOW); 
+      digitalWrite(IN4, HIGH);   
+    } else if (toSend == 'R') {
+      // girar derecha
+      digitalWrite(IN1, HIGH); 
+      digitalWrite(IN2, LOW); 
+      digitalWrite(IN3, LOW); 
+      digitalWrite(IN4, HIGH); 
+    } else if (toSend == 'B') {
+      // Retroceder
+      digitalWrite(IN1, HIGH); 
+      digitalWrite(IN2, LOW);     
+      digitalWrite(IN3, HIGH); 
+      digitalWrite(IN4, LOW); 
+    } else if (toSend == 'L') {
+      // girar izquierda
+      digitalWrite(IN1, LOW); 
+      digitalWrite(IN2, HIGH); 
+      digitalWrite(IN3, HIGH); 
+      digitalWrite(IN4, LOW);    
+    } else if (toSend == 'S') {
+      // Detener
+      digitalWrite(IN1, LOW); 
+      digitalWrite(IN2, LOW); 
+      digitalWrite(IN3, LOW); 
+      digitalWrite(IN4, LOW);  
+    }
+  }
+}
+
+
+    
